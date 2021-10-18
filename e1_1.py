@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 # import sklearn
 from sklearn.linear_model import LinearRegression
+from sklearn.neighbors import KNeighborsRegressor
 
 
 def prepare_country_stats(oecdbli, gdppc):
@@ -33,7 +34,7 @@ y = np.c_[country_stats["Life satisfaction"]]
 
 # Visualize data
 country_stats.plot(kind='scatter', x='GDP per capita', y='Life satisfaction')
-# plt.show()
+plt.show()
 
 # Select a linear model
 # lin_reg_model = sklearn.linear_model.LinearRegression()
@@ -44,4 +45,10 @@ lin_reg_model.fit(x, y)
 
 # Make a prediction for Cyprus
 x_new = [[22587]]   # Cyprus GDP per capita
-print("Prediction for Cyprus life satisfaction: {}, (GDP = {})".format(lin_reg_model.predict(x_new), x_new))
+print("[Linear regression model]\t Prediction for Cyprus life satisfaction: {}, (GDP = {})".format(lin_reg_model.predict(x_new)[0][0], x_new[0][0]))
+
+# Check with k-Nearest Neighbours regression
+knear_reg_model = KNeighborsRegressor(n_neighbors=3)
+knear_reg_model.fit(x, y)
+x_new_2 = [[22587]]
+print("[k-Nearest Neighbor model]\t Prediction for Cyprus life satisfaction: {}, (GDP = {})".format(knear_reg_model.predict(x_new_2)[0][0], x_new_2[0][0]))
